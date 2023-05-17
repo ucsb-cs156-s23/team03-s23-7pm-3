@@ -1,4 +1,4 @@
-Change 3rd model frontend to use Java backend 
+Change Book frontend to use Java backend 
 
 # Acceptance Criteria:
 
