@@ -16,7 +16,7 @@ export default function BookEditPage() {
     const onSubmit = async (book) => {
         const updatedBook = bookUtils.update(book);
         console.log("updatedBook: " + JSON.stringify(updatedBook));
-        navigate("/books");
+        navigate("/books/list");
     }
 
     return (

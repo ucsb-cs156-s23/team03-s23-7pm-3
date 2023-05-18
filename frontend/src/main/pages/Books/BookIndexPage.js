@@ -17,7 +17,7 @@ export default function BookIndexPage() {
     const deleteCallback = async (cell) => {
         console.log(`BookIndexPage deleteCallback: ${showCell(cell)})`);
         bookUtils.del(cell.row.values.id);
-        navigate("/books");
+        navigate("/books/list");
     }
 
     return (
