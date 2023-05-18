@@ -11,6 +11,10 @@ import UCSBDatesIndexPage from "main/pages/UCSBDates/UCSBDatesIndexPage";
 import UCSBDatesCreatePage from "main/pages/UCSBDates/UCSBDatesCreatePage";
 import UCSBDatesEditPage from "main/pages/UCSBDates/UCSBDatesEditPage";
 
+import IceCreamShopCreatePage from "main/pages/IceCreamShops/IceCreamShopCreatePage";
+import IceCreamShopEditPage from "main/pages/IceCreamShops/IceCreamShopEditPage";
+import IceCreamShopIndexPage from "main/pages/IceCreamShops/IceCreamShopIndexPage";
+import IceCreamShopDetailsPage from "main/pages/IceCreamShops/IceCreamShopDetailsPage";
 
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
@@ -38,11 +42,17 @@ function App() {
             </>
           )
         }
-
         {
           hasRole(currentUser, "ROLE_USER") && (
             <>
               <Route exact path="/ucsbdates/list" element={<UCSBDatesIndexPage />} />
+            </>
+          )
+        }
+        {
+          hasRole(currentUser, "ROLE_USER") && (
+            <>
+              <Route exact path="/ucsbdates/list" element={<IceCreamShopIndexPage />} />
             </>
           )
         }
@@ -54,6 +64,15 @@ function App() {
             </>
           )
         }
+        {
+          hasRole(currentUser, "ROLE_ADMIN") && (
+            <>
+              <Route exact path="/icecreamshops/edit/:id" element={<IceCreamShopEditPage />} />
+              <Route exact path="/icecreamshops/create" element={<IceCreamShopCreatePage />} />
+            </>
+          )
+        }
+        
 
       </Routes>
     </BrowserRouter>
