@@ -10,7 +10,7 @@ export default function BookCreatePage() {
     const onSubmit = async (book) => {
         const createdBook = bookUtils.add(book);
         console.log("createdBook: " + JSON.stringify(createdBook));
-        navigate("/books");
+        navigate("/books/list");
     }
 
     return (

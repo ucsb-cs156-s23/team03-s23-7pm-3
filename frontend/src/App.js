@@ -11,9 +11,9 @@ import UCSBDatesIndexPage from "main/pages/UCSBDates/UCSBDatesIndexPage";
 import UCSBDatesCreatePage from "main/pages/UCSBDates/UCSBDatesCreatePage";
 import UCSBDatesEditPage from "main/pages/UCSBDates/UCSBDatesEditPage";
 
-import BookIndexPage from "main/pages/UCSBDates/BookIndexPage";
-import BookCreatePage from "main/pages/UCSBDates/BookCreatePage";
-import BookEditPage from "main/pages/UCSBDates/BookEditPage";
+import BookIndexPage from "main/pages/Books/BookIndexPage";
+import BookCreatePage from "main/pages/Books/BookCreatePage";
+import BookEditPage from "main/pages/Books/BookEditPage";
 
 
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
