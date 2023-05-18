@@ -59,7 +59,7 @@ import javax.validation.Valid;
     public Book postBook(
             @ApiParam(&quot;title&quot;) @RequestParam String title,
             @ApiParam(&quot;author&quot;) @RequestParam String author,
-            @ApiParam(&quot;publicdate&quot;) @RequestParam String publicdate)
+            @ApiParam(&quot;description&quot;) @RequestParam String description)
             throws JsonProcessingException {
 
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -69,7 +69,7 @@ import javax.validation.Valid;
 <span class="fc" id="L69">        Book book = new Book();</span>
 <span class="fc" id="L70">        book.setTitle(title);</span>
 <span class="fc" id="L71">        book.setAuthor(author);</span>
-<span class="fc" id="L72">        book.setPublicdate(publicdate);</span>
+<span class="fc" id="L72">        book.setDescription(description);</span>
 
 <span class="fc" id="L74">        Book savedBook = BookRepository.save(book);</span>
 
@@ -100,7 +100,7 @@ import javax.validation.Valid;
 
 <span class="fc" id="L101">        book.setTitle(incoming.getTitle());</span>
 <span class="fc" id="L102">        book.setAuthor(incoming.getAuthor());</span>
-<span class="fc" id="L103">        book.setPublicdate(incoming.getPublicdate());</span>
+<span class="fc" id="L103">        book.setDescription(incoming.getDescription());</span>
 
 <span class="fc" id="L105">        BookRepository.save(book);</span>
 
