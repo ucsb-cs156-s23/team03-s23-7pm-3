@@ -179,7 +179,7 @@ public class BooksControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/books/post?title=To Kill a Mockingbird&author=Harper Lee&description=It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right")
+                                post("/api/books/post?title=To Kill a Mockingbird&author=Harper Lee&description=It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right.")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -281,7 +281,7 @@ public class BooksControllerTests extends ControllerTestCase {
 
                 Book  BookEditAuthor =  Book.builder()
                                 .title("To Kill a Mockingbird")
-                                .author("Jason")
+                                .author("Harper Lee")
                                 .description("It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right.")
                                 .build();
 
