@@ -43,9 +43,9 @@ function BookForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     data-testid={testIdPrefix + "-title"}
                     id="title"
                     type="text"
-                    isInvalid={Boolean(errors.name)}
+                    isInvalid={Boolean(errors.title)}
                     {...register("title", {
-                        required: "title is required.",
+                        required: "Title is required.",
                         maxLength: {
                             value: 30,
                             message: "Max length 30 characters"
@@ -53,28 +53,26 @@ function BookForm({ initialContents, submitAction, buttonLabel = "Create" }) {
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors.name?.message}
+                    {errors.title?.message}
                 </Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="author">Author</Form.Label>
                 <Form.Control
                     data-testid={testIdPrefix + "-author"}
                     id="author"
                     type="text"
-                    isInvalid={Boolean(errors.name)}
+                    isInvalid={Boolean(errors.author)}
                     {...register("author", {
-                        required: "author is required.",
-                        maxLength: {
-                            value: 30,
-                            message: "Max length 30 characters"
-                        }
+                        required: "Author is required."
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors.name?.message}
+                    {errors.author?.message}
                 </Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="description">Description</Form.Label>
                 <Form.Control
