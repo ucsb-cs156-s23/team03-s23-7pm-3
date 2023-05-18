@@ -89,7 +89,7 @@ public class BooksControllerTests extends ControllerTestCase {
                 Book book = Book.builder()
                                 .title("To Kill a Mockingbird")
                                 .author("Harper Lee")
-                                .publicdate("1960/08/11")
+                                .description("It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right")
                                 .build();
 
                 when(BookRepository.findById(eq(7L))).thenReturn(Optional.of(book));
@@ -136,7 +136,7 @@ public class BooksControllerTests extends ControllerTestCase {
                 Book book1 = Book.builder()
                                 .title("To Kill a Mockingbird")
                                 .author("Harper Lee")
-                                .publicdate("1960/08/11")
+                                .description("It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right.")
                                 .build();
 
 
@@ -144,7 +144,7 @@ public class BooksControllerTests extends ControllerTestCase {
                 Book book2 = Book.builder()
                                 .title("1984")
                                 .author("George Orwell")
-                                .publicdate("1949/07/08")
+                                .description("Dystopian novel by George Orwell, set in a totalitarian society where Big Brother monitors citizens' every move.")
                                 .build();
 
                 ArrayList<Book> expectedBooks = new ArrayList<>();
@@ -172,14 +172,14 @@ public class BooksControllerTests extends ControllerTestCase {
                 Book book1 = Book.builder()
                                 .title("To Kill a Mockingbird")
                                 .author("Harper Lee")
-                                .publicdate("1960/08/11")
+                                .description("It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right.")
                                 .build();
 
                 when(BookRepository.save(eq(book1))).thenReturn(book1);
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/books/post?title=To Kill a Mockingbird&author=Harper Lee&publicdate=1960/08/11")
+                                post("/api/books/post?title=To Kill a Mockingbird&author=Harper Lee&description=It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -198,7 +198,7 @@ public class BooksControllerTests extends ControllerTestCase {
                 Book book1 = Book.builder()
                                 .title("To Kill a Mockingbird")
                                 .author("Harper Lee")
-                                .publicdate("1960/08/11")
+                                .description("It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right.")
                                 .build();
 
                 when(BookRepository.findById(eq(15L))).thenReturn(Optional.of(book1));
@@ -245,13 +245,13 @@ public class BooksControllerTests extends ControllerTestCase {
                 Book bookOrig = Book.builder()
                                 .title("To Kill a Mockingbird")
                                 .author("Harper Lee")
-                                .publicdate("1960/08/11")
+                                .description("It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right.")
                                 .build();
 
                 Book bookEdited = Book.builder()
                                 .title("1984")
                                 .author("George Orwell")
-                                .publicdate("1949/07/08")
+                                .description("Dystopian novel by George Orwell, set in a totalitarian society where Big Brother monitors citizens' every move.")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(bookEdited);
@@ -282,7 +282,7 @@ public class BooksControllerTests extends ControllerTestCase {
                 Book  BookEditAuthor =  Book.builder()
                                 .title("To Kill a Mockingbird")
                                 .author("Jason")
-                                .publicdate("1960/08/11")
+                                .description("It is a poignant coming-of-age story that confronts social issues and highlights the power of compassion and standing up for what is right.")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(BookEditAuthor);

@@ -59,7 +59,7 @@ public class BooksController extends ApiController {
     public Book postBook(
             @ApiParam("title") @RequestParam String title,
             @ApiParam("author") @RequestParam String author,
-            @ApiParam("publicdate") @RequestParam String publicdate)
+            @ApiParam("description") @RequestParam String description)
             throws JsonProcessingException {
 
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -69,7 +69,7 @@ public class BooksController extends ApiController {
         Book book = new Book();
         book.setTitle(title);
         book.setAuthor(author);
-        book.setPublicdate(publicdate);
+        book.setDescription(description);
 
         Book savedBook = BookRepository.save(book);
 
@@ -100,7 +100,7 @@ public class BooksController extends ApiController {
 
         book.setTitle(incoming.getTitle());
         book.setAuthor(incoming.getAuthor());
-        book.setPublicdate(incoming.getPublicdate());
+        book.setDescription(incoming.getDescription());
 
         BookRepository.save(book);
 
