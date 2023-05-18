@@ -65,7 +65,7 @@ describe("BookEditPage tests", () => {
         expect(screen.getByDisplayValue('A story about a mysterious, rich man')).toBeInTheDocument();
     });
 
-    test("redirects to /books on submit", async () => {
+    test("redirects to /books/list on submit", async () => {
 
         const restoreConsole = mockConsole();
 
@@ -106,7 +106,7 @@ describe("BookEditPage tests", () => {
         });
 
         await waitFor(() => expect(mockUpdate).toHaveBeenCalled());
-        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/books"));
+        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/books/list"));
 
         // assert - check that the console.log was called with the expected message
         expect(console.log).toHaveBeenCalled();
