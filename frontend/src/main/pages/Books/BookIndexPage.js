@@ -4,6 +4,10 @@ import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import BookTable from 'main/components/Books/BookTable';
 import { bookUtils } from 'main/utils/bookUtils';
 import { useNavigate, Link } from 'react-router-dom';
+import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import axios from "axios";
+import AxiosMockAdapter from "axios-mock-adapter";
 
 export default function BookIndexPage() {
 

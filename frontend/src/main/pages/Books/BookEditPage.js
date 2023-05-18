@@ -4,6 +4,10 @@ import { useParams } from "react-router-dom";
 import { bookUtils } from 'main/utils/bookUtils';
 import BookForm from 'main/components/Books/BookForm';
 import { useNavigate } from 'react-router-dom'
+import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import axios from "axios";
+import AxiosMockAdapter from "axios-mock-adapter";
 
 
 export default function BookEditPage() {
