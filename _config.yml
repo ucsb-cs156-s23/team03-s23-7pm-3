@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-s23/team03-s23-7pm-3
 owner: ucsb-cs156-s23
 repo_name: team03-s23-7pm-3
-pull_requests: [{"author":{"id":"MDQ6VXNlcjc3NDA1OTEx","is_bot":false,"login":"wq12li","name":""},"headRefName":"Yiu-Shing-BookFrontend","number":15,"title":"Move frontend files for Books from team01","url":"https://github.com/ucsb-cs156-s23/team03-s23-7pm-3/pull/15"}]
+pull_requests: [{"author":{"id":"U_kgDOBXRUhw","is_bot":false,"login":"nickzahlis","name":""},"headRefName":"Nick-RestaurantBackend","number":18,"title":"Add CRUD files from team02","url":"https://github.com/ucsb-cs156-s23/team03-s23-7pm-3/pull/18"},{"author":{"id":"MDQ6VXNlcjc3NDA1OTEx","is_bot":false,"login":"wq12li","name":""},"headRefName":"Yiu-Shing-BookFrontend","number":15,"title":"Move frontend files for Books from team01","url":"https://github.com/ucsb-cs156-s23/team03-s23-7pm-3/pull/15"}]
