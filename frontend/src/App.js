@@ -50,17 +50,17 @@ function App() {
           )
         }
         {
-          hasRole(currentUser, "ROLE_USER") && (
-            <>
-              <Route exact path="/ucsbdates/list" element={<IceCreamShopIndexPage />} />
-            </>
-          )
-        }
-        {
           hasRole(currentUser, "ROLE_ADMIN") && (
             <>
               <Route exact path="/ucsbdates/edit/:id" element={<UCSBDatesEditPage />} />
               <Route exact path="/ucsbdates/create" element={<UCSBDatesCreatePage />} />
+            </>
+          )
+        }
+        {
+          hasRole(currentUser, "ROLE_USER") && (
+            <>
+              <Route exact path="/icecreamshops/list" element={<IceCreamShopIndexPage />} />
             </>
           )
         }

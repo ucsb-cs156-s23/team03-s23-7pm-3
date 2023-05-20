@@ -78,6 +78,21 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
               }
             </Nav>
 
+            <Nav className="mr-auto">
+              {
+                hasRole(currentUser, "ROLE_USER") && (
+                  <NavDropdown title="IceCreamShops" id="appnavbar-icecreamshops-dropdown" data-testid="appnavbar-icecreamshops-dropdown" >
+                    <NavDropdown.Item href="/icecreamshops/list" data-testid="appnavbar-icecreamshops-list">List</NavDropdown.Item>
+                    {
+                      hasRole(currentUser, "ROLE_ADMIN") && (
+                        <NavDropdown.Item href="/icecreamshops/create" data-testid="appnavbar-icecreamshops-create">Create</NavDropdown.Item>
+                      )
+                    }
+                  </NavDropdown>
+                )
+              }
+            </Nav>
+
             <Nav className="ml-auto">
               {
                 currentUser && currentUser.loggedIn ? (
