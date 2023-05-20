@@ -214,6 +214,7 @@ describe("AppNavbar tests", () => {
     });
     
     test("renders the books menu correctly for a user", async () => {
+      
         const currentUser = currentUserFixtures.userOnly;
         const systemInfo = systemInfoFixtures.showingBoth;
 
@@ -236,9 +237,32 @@ describe("AppNavbar tests", () => {
 
     });
 
-    test("renders the restaurants menu correctly for a user", async () => {
-   
+    test("renders the icecreamshops menu correctly for a user", async () => {
+      
+        const currentUser = currentUserFixtures.userOnly;
+        const systemInfo = systemInfoFixtures.showingBoth;
 
+        const doLogin = jest.fn();
+
+        const {getByTestId, findByTestId  } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AppNavbar currentUser={currentUser} systemInfo={systemInfo} doLogin={doLogin} />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        
+        await findByTestId("appnavbar-icecreamshops-dropdown");
+        const dropdown = getByTestId("appnavbar-icecreamshops-dropdown");
+        const aElement = dropdown.querySelector("a");
+        expect(aElement).toBeInTheDocument();
+        aElement?.click();
+        await findByTestId("appnavbar-icecreamshops-list");
+
+    });
+
+    test("renders the restaurants menu correctly for a user", async () => {
+      
         const currentUser = currentUserFixtures.userOnly;
         const systemInfo = systemInfoFixtures.showingBoth;
 
@@ -252,7 +276,6 @@ describe("AppNavbar tests", () => {
             </QueryClientProvider>
         );
 
-
         await findByTestId("appnavbar-restaurants-dropdown");
         const dropdown = getByTestId("appnavbar-restaurants-dropdown");
         const aElement = dropdown.querySelector("a");
@@ -263,6 +286,7 @@ describe("AppNavbar tests", () => {
     });
 
     test("renders the restaurants menu correctly for an admin", async () => {
+      
         const currentUser = currentUserFixtures.adminUser;
         const systemInfo = systemInfoFixtures.showingBoth;
 
@@ -284,7 +308,6 @@ describe("AppNavbar tests", () => {
         await findByTestId(/appnavbar-restaurants-create/);
 
     });
-        
 
     test("renders the books menu correctly for an admin", async () => {
 
@@ -307,6 +330,30 @@ describe("AppNavbar tests", () => {
         expect(aElement).toBeInTheDocument();
         aElement?.click();
         await findByTestId(/appnavbar-books-create/);
+
+    });
+
+    test("renders the icecreamshops menu correctly for an admin", async () => {
+
+        const currentUser = currentUserFixtures.adminUser;
+        const systemInfo = systemInfoFixtures.showingBoth;
+
+        const doLogin = jest.fn();
+
+        const {getByTestId, findByTestId  } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AppNavbar currentUser={currentUser} systemInfo={systemInfo} doLogin={doLogin} />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await findByTestId("appnavbar-icecreamshops-dropdown");
+        const dropdown = getByTestId("appnavbar-icecreamshops-dropdown");
+        const aElement = dropdown.querySelector("a");
+        expect(aElement).toBeInTheDocument();
+        aElement?.click();
+        await findByTestId(/appnavbar-icecreamshops-create/);
 
     });
 });

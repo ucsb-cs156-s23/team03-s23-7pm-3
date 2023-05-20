@@ -11,7 +11,3 @@ export default {
 const Template = () => <UCSBDatesIndexPage />;
 
 export const Default = Template.bind({});
-
-
-
-

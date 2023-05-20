@@ -22,6 +22,10 @@ import BookCreatePage from "main/pages/Books/BookCreatePage";
 import BookEditPage from "main/pages/Books/BookEditPage";
 import BookDetailsPage from "main/pages/Books/BookDetailsPage";
 
+import IceCreamShopCreatePage from "main/pages/IceCreamShops/IceCreamShopCreatePage";
+import IceCreamShopEditPage from "main/pages/IceCreamShops/IceCreamShopEditPage";
+import IceCreamShopIndexPage from "main/pages/IceCreamShops/IceCreamShopIndexPage";
+import IceCreamShopDetailsPage from "main/pages/IceCreamShops/IceCreamShopDetailsPage";
 
 
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
@@ -50,7 +54,6 @@ function App() {
             </>
           )
         }
-
         {
           hasRole(currentUser, "ROLE_USER") && (
             <>
@@ -69,11 +72,25 @@ function App() {
         {
           hasRole(currentUser, "ROLE_USER") && (
             <>
+              <Route exact path="/icecreamshops/list" element={<IceCreamShopIndexPage />} />
+            </>
+          )
+        }
+        {
+          hasRole(currentUser, "ROLE_ADMIN") && (
+            <>
+              <Route exact path="/icecreamshops/edit/:id" element={<IceCreamShopEditPage />} />
+              <Route exact path="/icecreamshops/create" element={<IceCreamShopCreatePage />} />
+            </>
+          )
+        }
+        {
+          hasRole(currentUser, "ROLE_USER") && (
+            <>
               <Route exact path="/restaurants/list" element={<RestaurantIndexPage />} />
             </>
           )
         }
-       
         {
           hasRole(currentUser, "ROLE_ADMIN") && (
             <>
@@ -82,7 +99,6 @@ function App() {
             </>
           )
         }
-        
         {
           hasRole(currentUser, "ROLE_USER") && (
             <>
