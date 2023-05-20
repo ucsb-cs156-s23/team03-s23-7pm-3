@@ -17,7 +17,7 @@ export default function IceCreamShopIndexPage() {
     const deleteCallback = async (cell) => {
         console.log(`IceCreamShopIndexPage deleteCallback: ${showCell(cell)})`);
         iceCreamShopUtils.del(cell.row.values.id);
-        navigate("/iceCreamShops");
+        navigate("/iceCreamShops/list");
     }
 
     return (

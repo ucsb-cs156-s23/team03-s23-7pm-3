@@ -10,7 +10,7 @@ export default function IceCreamShopCreatePage() {
   const onSubmit = async (iceCreamShop) => {
     const createdIceCreamShop = iceCreamShopUtils.add(iceCreamShop);
     console.log("createdIceCreamShop: " + JSON.stringify(createdIceCreamShop));
-    navigate("/iceCreamShops");
+    navigate("/iceCreamShops/list");
   }  
 
   return (

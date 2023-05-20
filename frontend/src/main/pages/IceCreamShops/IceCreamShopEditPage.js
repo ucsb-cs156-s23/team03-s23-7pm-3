@@ -15,7 +15,7 @@ export default function IceCreamShopEditPage() {
     const onSubmit = async (iceCreamShop) => {
         const updatedIceCreamShop = iceCreamShopUtils.update(iceCreamShop);
         console.log("updatedIceCreamShop: " + JSON.stringify(updatedIceCreamShop));
-        navigate("/iceCreamShops");
+        navigate("/iceCreamShops/list");
     }  
 
     return (

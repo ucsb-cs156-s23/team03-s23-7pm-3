@@ -33,7 +33,7 @@ describe("IceCreamShopCreatePage tests", () => {
         );
     });
 
-    test("redirects to /iceCreamShops on submit", async () => {
+    test("redirects to /iceCreamShops/list on submit", async () => {
 
         const restoreConsole = mockConsole();
 
@@ -76,7 +76,7 @@ describe("IceCreamShopCreatePage tests", () => {
         });
 
         await waitFor(() => expect(mockAdd).toHaveBeenCalled());
-        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/iceCreamShops"));
+        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/iceCreamShops/list"));
 
         // assert - check that the console.log was called with the expected message
         expect(console.log).toHaveBeenCalled();

@@ -107,7 +107,7 @@ describe("IceCreamShopEditPage tests", () => {
         });
 
         await waitFor(() => expect(mockUpdate).toHaveBeenCalled());
-        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/iceCreamShops"));
+        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/iceCreamShops/list"));
 
         // assert - check that the console.log was called with the expected message
         expect(console.log).toHaveBeenCalled();
