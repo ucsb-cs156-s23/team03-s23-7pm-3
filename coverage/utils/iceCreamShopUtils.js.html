@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for utils/restaurantUtils.js</title>
+    <title>Code coverage report for utils/iceCreamShopUtils.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">utils</a> restaurantUtils.js</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">utils</a> iceCreamShopUtils.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -151,11 +151,7 @@
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -243,91 +239,87 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// get restaurants from local storage
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Get ice cream shops from local storage
 const get = () =&gt; {
-    const restaurantValue = localStorage.getItem("restaurants");
-    if (restaurantValue === undefined) {
-        const restaurantCollection = { nextId: 1, restaurants: [] }
-        return set(restaurantCollection);
+    const iceCreamShopValue = localStorage.getItem("iceCreamShops");
+    if (iceCreamShopValue === undefined) {
+        const iceCreamShopCollection = { nextId: 1, iceCreamShops: [] }
+        return set(iceCreamShopCollection);
     }
-    const restaurantCollection = JSON.parse(restaurantValue);
-    if (restaurantCollection === null) {
-        const restaurantCollection = { nextId: 1, restaurants: [] }
-        return set(restaurantCollection);
+    const iceCreamShopCollection = JSON.parse(iceCreamShopValue);
+    if (iceCreamShopCollection === null) {
+        const iceCreamShopCollection = { nextId: 1, iceCreamShops: [] }
+        return set(iceCreamShopCollection);
     }
-    return restaurantCollection;
+    return iceCreamShopCollection;
 };
 &nbsp;
 const getById = (id) =&gt; {
     if (id === undefined) {
         return { "error": "id is a required parameter" };
     }
-    const restaurantCollection = get();
-    const restaurants = restaurantCollection.restaurants;
+    const iceCreamShopCollection = get();
+    const iceCreamShops = iceCreamShopCollection.iceCreamShops;
 &nbsp;
     /* eslint-disable-next-line eqeqeq */ // we really do want == here, not ===
-    const index = restaurants.findIndex((r) =&gt; r.id == id);
+    const index = iceCreamShops.findIndex((r) =&gt; r.id == id);
     if (index === -1) {
-        return { "error": `restaurant with id ${id} not found` };
+        return { "error": `iceCreamShop with id ${id} not found` };
     }
-    return { restaurant: restaurants[index] };
+    return { iceCreamShop: iceCreamShops[index] };
 }
 &nbsp;
-// set restaurants in local storage
-const set = (restaurantCollection) =&gt; {
-    localStorage.setItem("restaurants", JSON.stringify(restaurantCollection));
-    return restaurantCollection;
+// set iceCreamShops in local storage
+const set = (iceCreamShopCollection) =&gt; {
+    localStorage.setItem("iceCreamShops", JSON.stringify(iceCreamShopCollection));
+    return iceCreamShopCollection;
 };
 &nbsp;
-// add a restaurant to local storage
-const add = (restaurant) =&gt; {
-    const restaurantCollection = get();
-    restaurant = { ...restaurant, id: restaurantCollection.nextId };
-    restaurantCollection.nextId++;
-    restaurantCollection.restaurants.push(restaurant);
-    set(restaurantCollection);
-    return restaurant;
+// add an iceCreamShop to local storage
+const add = (iceCreamShop) =&gt; {
+    const iceCreamShopCollection = get();
+    iceCreamShop = { ...iceCreamShop, id: iceCreamShopCollection.nextId };
+    iceCreamShopCollection.nextId++;
+    iceCreamShopCollection.iceCreamShops.push(iceCreamShop);
+    set(iceCreamShopCollection);
+    return iceCreamShop;
 };
 &nbsp;
-// update a restaurant in local storage
-const update = (restaurant) =&gt; {
-    const restaurantCollection = get();
+// update an iceCreamShop in local storage
+const update = (iceCreamShop) =&gt; {
+    const iceCreamShopCollection = get();
 &nbsp;
-    const restaurants = restaurantCollection.restaurants;
+    const iceCreamShops = iceCreamShopCollection.iceCreamShops;
 &nbsp;
     /* eslint-disable-next-line eqeqeq */ // we really do want == here, not ===
-    const index = restaurants.findIndex((r) =&gt; r.id == restaurant.id);
+    const index = iceCreamShops.findIndex((r) =&gt; r.id == iceCreamShop.id);
     if (index === -1) {
-        return { "error": `restaurant with id ${restaurant.id} not found` };
+        return { "error": `iceCreamShop with id ${iceCreamShop.id} not found` };
     }
-    restaurants[index] = restaurant;
-    set(restaurantCollection);
-    return { restaurantCollection: restaurantCollection };
+    iceCreamShops[index] = iceCreamShop;
+    set(iceCreamShopCollection);
+    return { iceCreamShopCollection: iceCreamShopCollection };
 };
 &nbsp;
-// delete a restaurant from local storage
+// delete an iceCreamShop from local storage
 const del = (id) =&gt; {
     if (id === undefined) {
         return { "error": "id is a required parameter" };
     }
-    const restaurantCollection = get();
-    const restaurants = restaurantCollection.restaurants;
+    const iceCreamShopCollection = get();
+    const iceCreamShops = iceCreamShopCollection.iceCreamShops;
 &nbsp;
     /* eslint-disable-next-line eqeqeq */ // we really do want == here, not ===
-    const index = restaurants.findIndex((r) =&gt; r.id == id);
+    const index = iceCreamShops.findIndex((r) =&gt; r.id == id);
     if (index === -1) {
-        return { "error": `restaurant with id ${id} not found` };
+        return { "error": `iceCreamShop with id ${id} not found` };
     }
-    restaurants.splice(index, 1);
-    set(restaurantCollection);
-    return { restaurantCollection: restaurantCollection };
+    iceCreamShops.splice(index, 1);
+    set(iceCreamShopCollection);
+    return { iceCreamShopCollection: iceCreamShopCollection };
 };
 &nbsp;
-const restaurantUtils = {
+const iceCreamShopUtils = {
     get,
     getById,
     add,
@@ -335,11 +327,7 @@ const restaurantUtils = {
     del
 };
 &nbsp;
-export { restaurantUtils };
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;</pre></td></tr></table></pre>
+export { iceCreamShopUtils };</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
