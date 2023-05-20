@@ -11,6 +11,11 @@ import UCSBDatesIndexPage from "main/pages/UCSBDates/UCSBDatesIndexPage";
 import UCSBDatesCreatePage from "main/pages/UCSBDates/UCSBDatesCreatePage";
 import UCSBDatesEditPage from "main/pages/UCSBDates/UCSBDatesEditPage";
 
+import BookIndexPage from "main/pages/Books/BookIndexPage";
+import BookCreatePage from "main/pages/Books/BookCreatePage";
+import BookEditPage from "main/pages/Books/BookEditPage";
+import BookDetailsPage from "main/pages/Books/BookDetailsPage";
+
 import IceCreamShopCreatePage from "main/pages/IceCreamShops/IceCreamShopCreatePage";
 import IceCreamShopEditPage from "main/pages/IceCreamShops/IceCreamShopEditPage";
 import IceCreamShopIndexPage from "main/pages/IceCreamShops/IceCreamShopIndexPage";
@@ -72,7 +77,21 @@ function App() {
             </>
           )
         }
-        
+        {
+          hasRole(currentUser, "ROLE_USER") && (
+            <>
+              <Route exact path="/books/list" element={<BookIndexPage />} />
+            </>
+          )
+        }
+        {
+          hasRole(currentUser, "ROLE_ADMIN") && (
+            <>
+              <Route exact path="/books/edit/:id" element={<BookEditPage />} />
+              <Route exact path="/books/create" element={<BookCreatePage />} />
+            </>
+          )
+        }
 
       </Routes>
     </BrowserRouter>
