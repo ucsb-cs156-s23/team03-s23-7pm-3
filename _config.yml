@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-s23/team03-s23-7pm-3
 owner: ucsb-cs156-s23
 repo_name: team03-s23-7pm-3
-pull_requests: [{"author":{"id":"MDQ6VXNlcjQ5OTAyNTkx","is_bot":false,"login":"KaneD985","name":"Kane Deng"},"headRefName":"Kane-RestaurantFrontend","number":21,"title":"Move frontend files for Restaurant to team03","url":"https://github.com/ucsb-cs156-s23/team03-s23-7pm-3/pull/21"},{"author":{"id":"MDQ6VXNlcjg2Njg0NTE2","is_bot":false,"login":"khtran1","name":"Kenny Tran"},"headRefName":"Kenny-IceCreamShopFrontend","number":19,"title":"team01 iceCreamShop frontend moved into team03","url":"https://github.com/ucsb-cs156-s23/team03-s23-7pm-3/pull/19"}]
+pull_requests: [{"author":{"id":"MDQ6VXNlcjg2Njg0NTE2","is_bot":false,"login":"khtran1","name":"Kenny Tran"},"headRefName":"Kenny-IceCreamShopFrontend","number":19,"title":"team01 iceCreamShop frontend moved into team03","url":"https://github.com/ucsb-cs156-s23/team03-s23-7pm-3/pull/19"}]
