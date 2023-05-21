@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 
-function RestaurantForm({ initialContents, submitAction, buttonLabel = "Create" }) {
+function RestaurantForm({ initialRestaurant, submitAction, buttonLabel = "Create" }) {
 
     const navigate = useNavigate();
     
@@ -13,7 +13,7 @@ function RestaurantForm({ initialContents, submitAction, buttonLabel = "Create" 
         formState: { errors },
         handleSubmit,
     } = useForm(
-        { defaultValues: initialContents || {}, }
+        { defaultValues: initialRestaurant || {}, }
     );
     // Stryker enable all
    
@@ -23,7 +23,7 @@ function RestaurantForm({ initialContents, submitAction, buttonLabel = "Create" 
 
         <Form onSubmit={handleSubmit(submitAction)}>
 
-            {initialContents && (
+            {initialRestaurant && (
                 <Form.Group className="mb-3" >
                     <Form.Label htmlFor="id">Id</Form.Label>
                     <Form.Control
@@ -31,7 +31,7 @@ function RestaurantForm({ initialContents, submitAction, buttonLabel = "Create" 
                         id="id"
                         type="text"
                         {...register("id")}
-                        value={initialContents.id}
+                        value={initialRestaurant.id}
                         disabled
                     />
                 </Form.Group>

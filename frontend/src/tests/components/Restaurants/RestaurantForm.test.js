@@ -19,7 +19,7 @@ describe("RestaurantForm tests", () => {
     const expectedHeaders = ["Name","Description"];
     const testId = "RestaurantForm";
 
-    test("renders correctly with no initialContents", async () => {
+    test("renders correctly with no initialRestaurant", async () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
@@ -37,11 +37,11 @@ describe("RestaurantForm tests", () => {
 
     });
 
-    test("renders correctly when passing in initialContents", async () => {
+    test("renders correctly when passing in initialRestaurant", async () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <RestaurantForm initialContents={restaurantFixtures.oneRestaurant} />
+                    <RestaurantForm initialRestaurant={restaurantFixtures.oneRestaurant} />
                 </Router>
             </QueryClientProvider>
         );
