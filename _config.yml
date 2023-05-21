@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-s23/team03-s23-7pm-3
 owner: ucsb-cs156-s23
 repo_name: team03-s23-7pm-3
-pull_requests: [{"author":{"id":"MDQ6VXNlcjQ5OTAyNTkx","is_bot":false,"login":"KaneD985","name":"Kane Deng"},"headRefName":"Kane-RestaurantFrontend","number":23,"title":"Kane-Fix the 'restauramts' and 'RestaurantsDetailPage' naming issues","url":"https://github.com/ucsb-cs156-s23/team03-s23-7pm-3/pull/23"},{"author":{"id":"MDQ6VXNlcjU5NzkwNjQ0","is_bot":false,"login":"zihaoxu20010109","name":"Hardy Xu"},"headRefName":"Hardy-BookConnection","number":22,"title":"hx -added all things we need to connect book frontend and backend","url":"https://github.com/ucsb-cs156-s23/team03-s23-7pm-3/pull/22"}]
+pull_requests: [{"author":{"id":"MDQ6VXNlcjU5NzkwNjQ0","is_bot":false,"login":"zihaoxu20010109","name":"Hardy Xu"},"headRefName":"Hardy-BookConnection","number":22,"title":"hx -added all things we need to connect book frontend and backend","url":"https://github.com/ucsb-cs156-s23/team03-s23-7pm-3/pull/22"}]
