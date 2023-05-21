@@ -1,38 +1,28 @@
 import React from 'react'
-import Button from 'react-bootstrap/Button';
+import { useBackend } from 'main/utils/useBackend';
+
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import BookTable from 'main/components/Books/BookTable';
-import { bookUtils } from 'main/utils/bookUtils';
-import { useNavigate, Link } from 'react-router-dom';
-import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
+import { useCurrentUser } from 'main/utils/currentUser'
 
-export default function BookIndexPage() {
+export default function BooksIndexPage() {
 
-    const navigate = useNavigate();
-
-    const bookCollection = bookUtils.get();
-    const books = bookCollection.books;
-
-    const showCell = (cell) => JSON.stringify(cell.row.values);
-
-    const deleteCallback = async (cell) => {
-        console.log(`BookIndexPage deleteCallback: ${showCell(cell)})`);
-        bookUtils.del(cell.row.values.id);
-        navigate("/books/list");
-    }
-
+    const currentUser = useCurrentUser();
+  
+    const { data: books, error: _error, status: _status } =
+      useBackend(
+        // Stryker disable next-line all : don't test internal caching of React Query
+        ["/api/books/all"],
+        { method: "GET", url: "/api/books/all" },
+        []
+      );
+  
     return (
-        <BasicLayout>
-            <div className="pt-2">
-                <Button style={{ float: "right" }} as={Link} to="/books/create">
-                    Create Book
-                </Button>
-                <h1>Books</h1>
-                <BookTable books={books} deleteCallback={deleteCallback} />
-            </div>
-        </BasicLayout>
+      <BasicLayout>
+        <div className="pt-2">
+          <h1>Books</h1>
+          <BookTable books={books} currentUser={currentUser} />
+        </div>
+      </BasicLayout>
     )
-}
+  }

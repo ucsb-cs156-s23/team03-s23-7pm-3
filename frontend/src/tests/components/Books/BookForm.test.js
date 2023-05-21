@@ -19,7 +19,7 @@ describe("BookForm tests", () => {
     const expectedHeaders = ["Title", "Author", "Description"];
     const testId = "BookForm";
 
-    test("renders correctly with no initialContents", async () => {
+    test("renders correctly with no initialBook", async () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
@@ -37,11 +37,11 @@ describe("BookForm tests", () => {
 
     });
 
-    test("renders correctly when passing in initialContents", async () => {
+    test("renders correctly when passing in initialBook", async () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <Router>
-                    <BookForm initialContents={bookFixtures.oneBook} />
+                    <BookForm initialBook={bookFixtures.oneBook} />
                 </Router>
             </QueryClientProvider>
         );
