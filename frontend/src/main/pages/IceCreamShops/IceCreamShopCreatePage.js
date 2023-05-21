@@ -1,17 +1,41 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import IceCreamShopForm from "main/components/IceCreamShops/IceCreamShopForm";
-import { useNavigate } from 'react-router-dom'
-import { iceCreamShopUtils } from 'main/utils/iceCreamShopUtils';
+import { Navigate } from 'react-router-dom'
+import { useBackendMutation } from "main/utils/useBackend";
+import { toast } from "react-toastify";
 
 export default function IceCreamShopCreatePage() {
 
-  let navigate = useNavigate(); 
+  const objectToAxiosParams = (iceCreamShop) => ({
+    url: "/api/icecreamshop/post",
+    method: "POST",
+    params: {
+      name: iceCreamShop.name,
+      description: iceCreamShop.description,
+      flavor: iceCreamShop.flavor
+    }
+  });
 
-  const onSubmit = async (iceCreamShop) => {
-    const createdIceCreamShop = iceCreamShopUtils.add(iceCreamShop);
-    console.log("createdIceCreamShop: " + JSON.stringify(createdIceCreamShop));
-    navigate("/iceCreamShops/list");
-  }  
+  const onSuccess = (iceCreamShop) => {
+    toast(`New iceCreamShop Created - name: ${iceCreamShop.name}, description: ${iceCreamShop.description}, flavor: ${iceCreamShop.flavor}`);
+  }
+
+  const mutation = useBackendMutation(
+    objectToAxiosParams,
+     { onSuccess }, 
+     // Stryker disable next-line all : hard to set up test for caching
+     ["/api/icecreamshop/all"]
+     );
+
+  const { isSuccess } = mutation
+
+  const onSubmit = async (data) => {
+    mutation.mutate(data);
+  }
+
+  if (isSuccess) {
+    return <Navigate to="/icecreamshops/list" />
+  }
 
   return (
     <BasicLayout>
