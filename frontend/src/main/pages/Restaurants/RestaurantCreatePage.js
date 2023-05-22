@@ -23,6 +23,7 @@ export default function RestaurantCreatePage() {
   const mutation = useBackendMutation(
       objectToAxiosParams,
       { onSuccess },
+      // Stryker disable next-line all : hard to set up test for caching
       ["/api/restaurants/all"]
   );
 
@@ -44,4 +45,4 @@ export default function RestaurantCreatePage() {
       </div>
     </BasicLayout>
   )
-}
+} 

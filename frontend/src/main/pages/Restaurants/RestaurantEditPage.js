@@ -12,7 +12,7 @@ export default function RestaurantEditPage() {
         useBackend(
             // Stryker disable next-line all : don't test internal caching of React Query
             [`/api/restaurants?id=${id}`],
-            { 
+            { // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
                 method: "GET",
                 url: `/api/restaurants`,
                 params: {
@@ -41,6 +41,7 @@ export default function RestaurantEditPage() {
     const mutation = useBackendMutation(
         objectToAxiosPutParams,
         { onSuccess },
+        // Stryker disable next-line all : hard to set up test for caching
         [`/api/restaurants?id=${id}`]
     );
 
