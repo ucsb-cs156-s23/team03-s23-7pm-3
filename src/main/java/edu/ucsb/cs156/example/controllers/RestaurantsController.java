@@ -55,15 +55,16 @@ public class RestaurantsController extends ApiController {
     @PostMapping("/post")
     public Restaurant postRestaurants(
         @ApiParam("name") @RequestParam String name,
-        @ApiParam("address") @RequestParam String address,
-        @ApiParam("specialty") @RequestParam String specialty
+        @ApiParam("specialty") @RequestParam String description,
+        @ApiParam("address") @RequestParam String address
         )
         {
 
         Restaurant restaurants = new Restaurant();
         restaurants.setName(name);
+        restaurants.setDescription(description);
         restaurants.setAddress(address);
-        restaurants.setSpecialty(specialty);
+        
 
         Restaurant savedRestaurants = restaurantsRepository.save(restaurants);
 
@@ -94,8 +95,8 @@ public class RestaurantsController extends ApiController {
 
 
         restaurants.setName(incoming.getName());
+        restaurants.setDescription(incoming.getDescription());
         restaurants.setAddress(incoming.getAddress());
-        restaurants.setSpecialty(incoming.getSpecialty());
 
         restaurantsRepository.save(restaurants);
 

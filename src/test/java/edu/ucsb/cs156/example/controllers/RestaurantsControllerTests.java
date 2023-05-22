@@ -87,8 +87,8 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 Restaurant restaurant = Restaurant.builder()
                                 .name("KazuNori: The Original Hand Roll Bar")
+                                .description("Sushi - Hand Rolls")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
-                                .specialty("Sushi - Hand Rolls")
                                 .build();
 
                 when(restaurantsRepository.findById(eq(1l))).thenReturn(Optional.of(restaurant));
@@ -133,14 +133,14 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 Restaurant kazunori = Restaurant.builder()
                                 .name("KazuNori: The Original Hand Roll Bar")
+                                .description("Sushi - Hand Rolls")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
-                                .specialty("Sushi - Hand Rolls")
                                 .build();
 
                 Restaurant sun = Restaurant.builder()
                                 .name("Sun Sushi")
+                                .description("Sushi")
                                 .address("3631 State St, Santa Barbara, CA 93105")
-                                .specialty("Sushi")
                                 .build();
 
                 ArrayList<Restaurant> expectedRestaurants = new ArrayList<>();
@@ -167,15 +167,15 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 Restaurant sun = Restaurant.builder()
                                 .name("Sun Sushi")
+                                .description("Sushi")
                                 .address("3631 State St, Santa Barbara, CA 93105")
-                                .specialty("Sushi")
                                 .build();
 
                 when(restaurantsRepository.save(eq(sun))).thenReturn(sun);
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/restaurants/post?name=Sun Sushi&address=3631 State St, Santa Barbara, CA 93105&specialty=Sushi")
+                                post("/api/restaurants/post?name=Sun Sushi&description=Sushi&address=3631 State St, Santa Barbara, CA 93105")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -193,8 +193,8 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 Restaurant kazunori = Restaurant.builder()
                                 .name("KazuNori: The Original Hand Roll Bar")
+                                .description("Sushi - Hand Rolls")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
-                                .specialty("Sushi - Hand Rolls")
                                 .build();
 
                 when(restaurantsRepository.findById(eq(1l))).thenReturn(Optional.of(kazunori));
@@ -240,14 +240,14 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 Restaurant kazunoriOrig = Restaurant.builder()
                                 .name("KazuNori: The Original Hand Roll Bar")
+                                .description("Burgers")
                                 .address("1110 Gayley Ave, Goleta, CA 90024")
-                                .specialty("Burgers")
                                 .build();
 
                 Restaurant kazunoriEdited = Restaurant.builder()
                                 .name("KazuNori")
+                                .description("Sushi - Hand Rolls")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
-                                .specialty("Sushi - Hand Rolls")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(kazunoriEdited);
@@ -277,8 +277,8 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 Restaurant kazunoriEdited = Restaurant.builder()
                                 .name("KazuNori")
+                                .description("Sushi - Hand Rolls")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
-                                .specialty("Sushi - Hand Rolls")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(kazunoriEdited);
