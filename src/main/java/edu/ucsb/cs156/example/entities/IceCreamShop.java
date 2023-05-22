@@ -14,7 +14,7 @@ import lombok.Builder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "icecreamshop")
+@Entity(name = "icecreamshops")
 public class IceCreamShop {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

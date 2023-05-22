@@ -42,40 +42,40 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
         @MockBean
         UserRepository userRepository;
 
-        // Authorization tests for /api/icecreamshop/admin/all
+        // Authorization tests for /api/icecreamshops/admin/all
 
         @Test
         public void logged_out_users_cannot_get_all() throws Exception {
-                mockMvc.perform(get("/api/icecreamshop/all"))
+                mockMvc.perform(get("/api/icecreamshops/all"))
                                 .andExpect(status().is(403)); // logged out users can't get all
         }
 
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_users_can_get_all() throws Exception {
-                mockMvc.perform(get("/api/icecreamshop/all"))
+                mockMvc.perform(get("/api/icecreamshops/all"))
                                 .andExpect(status().is(200)); // logged
         }
 
         @Test
         public void logged_out_users_cannot_get_by_id() throws Exception {
-                mockMvc.perform(get("/api/icecreamshop?id=7"))
+                mockMvc.perform(get("/api/icecreamshops?id=7"))
                                 .andExpect(status().is(403)); // logged out users can't get by id
         }
 
-        // Authorization tests for /api/icecreamshop/post
+        // Authorization tests for /api/icecreamshops/post
         // (Perhaps should also have these for put and delete)
 
         @Test
         public void logged_out_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/icecreamshop/post"))
+                mockMvc.perform(post("/api/icecreamshops/post"))
                                 .andExpect(status().is(403));
         }
 
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_regular_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/icecreamshop/post"))
+                mockMvc.perform(post("/api/icecreamshops/post"))
                                 .andExpect(status().is(403)); // only admins can post
         }
 
@@ -96,7 +96,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 when(iceCreamShopRepository.findById(eq(7L))).thenReturn(Optional.of(iceCreamShop));
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/icecreamshop?id=7"))
+                MvcResult response = mockMvc.perform(get("/api/icecreamshops?id=7"))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
@@ -116,7 +116,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 when(iceCreamShopRepository.findById(eq(7L))).thenReturn(Optional.empty());
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/icecreamshop?id=7"))
+                MvcResult response = mockMvc.perform(get("/api/icecreamshops?id=7"))
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
@@ -151,7 +151,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 when(iceCreamShopRepository.findAll()).thenReturn(expectedIceCreamShops);
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/icecreamshop/all"))
+                MvcResult response = mockMvc.perform(get("/api/icecreamshops/all"))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
@@ -177,7 +177,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/icecreamshop/post?name=Yogurtland&address=CalleRealGoletaCA&description=Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
+                                post("/api/icecreamshops/post?name=Yogurtland&address=CalleRealGoletaCA&description=Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -203,7 +203,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/icecreamshop?id=15")
+                                delete("/api/icecreamshops?id=15")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -225,7 +225,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/icecreamshop?id=15")
+                                delete("/api/icecreamshops?id=15")
                                                 .with(csrf()))
                                 .andExpect(status().isNotFound()).andReturn();
 
@@ -258,7 +258,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/icecreamshop?id=67")
+                                put("/api/icecreamshops?id=67")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
@@ -289,7 +289,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/icecreamshop?id=67")
+                                put("/api/icecreamshops?id=67")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
