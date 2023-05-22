@@ -81,6 +81,7 @@ function App() {
             <>
               <Route exact path="/icecreamshops/edit/:id" element={<IceCreamShopEditPage />} />
               <Route exact path="/icecreamshops/create" element={<IceCreamShopCreatePage />} />
+              <Route exact path="/icecreamshops/details/:id" element={<IceCreamShopDetailsPage />} />
             </>
           )
         }

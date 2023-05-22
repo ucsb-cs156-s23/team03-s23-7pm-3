@@ -117,7 +117,7 @@ describe("IceCreamShopTable tests", () => {
 
 		fireEvent.click(editButton);
 
-		await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/icecreamshop/edit/2'));
+		await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/icecreamshops/edit/2'));
 
 	});
 
@@ -141,7 +141,7 @@ describe("IceCreamShopTable tests", () => {
 
 		fireEvent.click(detailsButton);
 
-		await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/icecreamshop/details/2'));
+		await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/icecreamshops/details/2'));
 
 	});
 

@@ -153,13 +153,13 @@ describe("IceCreamShopEditPage tests", () => {
             fireEvent.click(submitButton);
 
             await waitFor(() => expect(mockToast).toBeCalled);
-            expect(mockToast).toBeCalledWith("IceCreamShop Updated - id: 1, name: The one with the cold stone, flavor: Chocolate");
+            expect(mockToast).toBeCalledWith("IceCreamShop Updated - id: 17, name: Coldstone Creamery, description: The one with the cold stone, flavor: Chocolate");
             expect(mockNavigate).toBeCalledWith({ "to": "/icecreamshops/list" });
 
             expect(axiosMock.history.put.length).toBe(1); // times called
             expect(axiosMock.history.put[0].params).toEqual({ id: 17 });
             expect(axiosMock.history.put[0].data).toBe(JSON.stringify({
-                title: "Coldstone Creamery",
+                name: "Coldstone Creamery",
                 description: "The one with the cold stone",
                 flavor: "Chocolate"
             })); // posted object

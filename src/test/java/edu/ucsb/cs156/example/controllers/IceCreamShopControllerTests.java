@@ -89,7 +89,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 IceCreamShop iceCreamShop = IceCreamShop.builder()
                                 .name("IVDrip")
-                                .address("EmbarcaderodelNorteIslaVistaCA")
+                                .flavor("EmbarcaderodelNorteIslaVistaCA")
                                 .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
                                 .build();
 
@@ -135,13 +135,13 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 IceCreamShop ivdrip = IceCreamShop.builder()
                                 .name("IVDrip")
-                                .address("EmbarcaderodelNorteIslaVistaCA")
+                                .flavor("EmbarcaderodelNorteIslaVistaCA")
                                 .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
                                 .build();
 
                 IceCreamShop yogurtland = IceCreamShop.builder()
                                 .name("Yogurtland")
-                                .address("CalleRealGoletaCA")
+                                .flavor("CalleRealGoletaCA")
                                 .description("Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
                                 .build();
 
@@ -169,7 +169,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 IceCreamShop iceCreamShop1 = IceCreamShop.builder()
                                 .name("Yogurtland")
-                                .address("CalleRealGoletaCA")
+                                .flavor("CalleRealGoletaCA")
                                 .description("Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
                                 .build();
 
@@ -177,7 +177,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/icecreamshop/post?name=Yogurtland&address=CalleRealGoletaCA&description=Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
+                                post("/api/icecreamshop/post?name=Yogurtland&flavor=CalleRealGoletaCA&description=Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -195,7 +195,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 IceCreamShop baskinrobbins = IceCreamShop.builder()
                                 .name("BaskinRobbins")
-                                .address("StateStSantaBarbaraCA")
+                                .flavor("StateStSantaBarbaraCA")
                                 .description("Colorfulicecreamparlorchainknownforitsmanyflavorsplussorbetyogurt")
                                 .build();
 
@@ -242,13 +242,13 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 IceCreamShop ivdripOrig = IceCreamShop.builder()
                                 .name("IVDrip")
-                                .address("EmbarcaderodelNorteIslaVistaCA")
+                                .flavor("EmbarcaderodelNorteIslaVistaCA")
                                 .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
                                 .build();
 
                 IceCreamShop ivdripEdited = IceCreamShop.builder()
                                 .name("ivdrip")
-                                .address("EmbarcaderodelNorteGoletaCA")
+                                .flavor("EmbarcaderodelNorteGoletaCA")
                                 .description("Quaintcompactcafe")
                                 .build();
 
@@ -279,7 +279,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
 
                 IceCreamShop editedIceCreamShop = IceCreamShop.builder()
                                 .name("ivdrip")
-                                .address("EmbarcaderodelNorteGoletaCA")
+                                .flavor("EmbarcaderodelNorteGoletaCA")
                                 .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
                                 .build();
 

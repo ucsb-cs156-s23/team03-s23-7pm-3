@@ -55,14 +55,14 @@ public class IceCreamShopController extends ApiController {
     @PostMapping("/post")
     public IceCreamShop postIceCreamShop(
         @ApiParam("name") @RequestParam String name,
-        @ApiParam("address") @RequestParam String address,
+        @ApiParam("flavor") @RequestParam String flavor,
         @ApiParam("description") @RequestParam String description
         )
         {
 
         IceCreamShop iceCreamShop = new IceCreamShop();
         iceCreamShop.setName(name);
-        iceCreamShop.setAddress(address);
+        iceCreamShop.setFlavor(flavor);
         iceCreamShop.setDescription(description);
 
         IceCreamShop savedIceCreamShop = iceCreamShopRepository.save(iceCreamShop);
@@ -94,7 +94,7 @@ public class IceCreamShopController extends ApiController {
 
 
         iceCreamShop.setName(incoming.getName());  
-        iceCreamShop.setAddress(incoming.getAddress());
+        iceCreamShop.setFlavor(incoming.getFlavor());
         iceCreamShop.setDescription(incoming.getDescription());
 
 

@@ -9,11 +9,11 @@ export default function IceCreamShopTable({ iceCreamShops, currentUser, showButt
     const navigate = useNavigate();
 
     const editCallback = (cell) => {
-        navigate(`/icecreamshop/edit/${cell.row.values.id}`)
+        navigate(`/icecreamshops/edit/${cell.row.values.id}`)
     }
 
     const detailsCallback = (cell) => {
-        navigate(`/icecreamshop/details/${cell.row.values.id}`)
+        navigate(`/icecreamshops/details/${cell.row.values.id}`)
     }
 
     // Stryker disable all : hard to test for query caching

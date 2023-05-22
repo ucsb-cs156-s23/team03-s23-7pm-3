@@ -21,6 +21,6 @@ public class IceCreamShop {
   private long id;
 
   private String name;
-  private String address;
+  private String flavor;
   private String description;
 }

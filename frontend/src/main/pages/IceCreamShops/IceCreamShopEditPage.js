@@ -24,7 +24,7 @@ export default function IceCreamShopEditPage() {
 
 
     const objectToAxiosPutParams = (iceCreamShop) => ({
-        url: "/api/iceCreamShop",
+        url: "/api/icecreamshop",
         method: "PUT",
         params: {
             id: iceCreamShop.id,
@@ -54,7 +54,7 @@ export default function IceCreamShopEditPage() {
     }
 
     if (isSuccess) {
-        return <Navigate to="/icecreamshops" />
+        return <Navigate to="/icecreamshops/list" />
     }
 
     return (
@@ -62,7 +62,7 @@ export default function IceCreamShopEditPage() {
             <div className="pt-2">
                 <h1>Edit Ice Cream Shop</h1>
                 {
-                    iceCreamShop && <IceCreamShopForm initialIceCreamShop={iceCreamShop} submitAction={onSubmit} buttonLabel="Update" />
+                    iceCreamShop && <IceCreamShopForm initialContents={iceCreamShop} submitAction={onSubmit} buttonLabel="Update" />
                 }
                 
             </div>
