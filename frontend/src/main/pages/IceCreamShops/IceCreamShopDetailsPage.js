@@ -1,18 +1,31 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import { useParams } from "react-router-dom";
 import IceCreamShopTable from 'main/components/IceCreamShops/IceCreamShopTable';
-import { iceCreamShopUtils } from 'main/utils/iceCreamShopUtils';
+import { useBackend } from "main/utils/useBackend";
+import { useCurrentUser } from "main/utils/currentUser";
 
 export default function IceCreamShopDetailsPage() {
   let { id } = useParams();
+  const currentUser = useCurrentUser();
 
-  const response = iceCreamShopUtils.getById(id);
+  const { data: iceCreamShops, error, status } =
+    useBackend(
+      // Stryker disable next-line all : don't test internal caching of React Query
+      [`/api/icecreamshops?id=${id}`],
+      {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
+        method: "GET",
+        url: `/api/icecreamshops`,
+        params: {
+          id
+        }
+      }
+    );
 
   return (
     <BasicLayout>
       <div className="pt-2">
         <h1>Ice Cream Shop Details</h1>
-        <IceCreamShopTable iceCreamShops={[response.iceCreamShop]} showButtons={false} />
+        <IceCreamShopTable iceCreamShops={[iceCreamShops || {}]} currentUser={currentUser} showButtons={false} />
       </div>
     </BasicLayout>
   )
