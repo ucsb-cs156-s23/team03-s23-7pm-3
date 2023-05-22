@@ -111,6 +111,7 @@ function App() {
             <>
               <Route exact path="/books/edit/:id" element={<BookEditPage />} />
               <Route exact path="/books/create" element={<BookCreatePage />} />
+              <Route exact path="/books/details/:id" element={<BookDetailsPage />} />
             </>
           )
         }

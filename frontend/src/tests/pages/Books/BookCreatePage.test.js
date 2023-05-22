@@ -1,100 +1,109 @@
-import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
-import BookCreatePage from "main/pages/Books/BookCreatePage";
+import { render, waitFor, fireEvent } from "@testing-library/react";
+import BooksCreatePage from "main/pages/Books/BookCreatePage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import mockConsole from "jest-mock-console";
-import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
+
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
-const mockNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockNavigate
-}));
-
-const mockAdd = jest.fn();
-jest.mock('main/utils/bookUtils', () => {
+const mockToast = jest.fn();
+jest.mock('react-toastify', () => {
+    const originalModule = jest.requireActual('react-toastify');
     return {
         __esModule: true,
-        bookUtils: {
-            add: () => { return mockAdd(); }
-        }
-    }
+        ...originalModule,
+        toast: (x) => mockToast(x)
+    };
 });
 
-describe("BookCreatePage tests", () => {
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => {
+    const originalModule = jest.requireActual('react-router-dom');
+    return {
+        __esModule: true,
+        ...originalModule,
+        Navigate: (x) => { mockNavigate(x); return null; }
+    };
+});
 
-    const axiosMock =new AxiosMockAdapter(axios);
-    axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-    axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
+describe("BooksCreatePage tests", () => {
 
-    const queryClient = new QueryClient();
+    const axiosMock = new AxiosMockAdapter(axios);
+
+    beforeEach(() => {
+        axiosMock.reset();
+        axiosMock.resetHistory();
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
+        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
+    });
+
     test("renders without crashing", () => {
+        const queryClient = new QueryClient();
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <BookCreatePage />
+                    <BooksCreatePage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
     });
 
-    test("redirects to /books/list on submit", async () => {
+    test("when you fill in the form and hit submit, it makes a request to the backend", async () => {
 
-        const restoreConsole = mockConsole();
+        const queryClient = new QueryClient();
+        const book = {
+            id: 17,
+            title: "The Great Gatsby",
+            author: "F. Scott Fitzgerald",
+            description: "A story about a mysterious, rich man"
+        };
 
-        mockAdd.mockReturnValue({
-            "book": {
-                id: 3,
-                title: "The Great Gatsby",
-                author: "F. Scott Fitzgerald",
-                description: "A story about a mysterious, rich man"
-            }
-        });
+        axiosMock.onPost("/api/books/post").reply(202, book);
 
-        render(
+        const { getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <BookCreatePage />
+                    <BooksCreatePage />
                 </MemoryRouter>
             </QueryClientProvider>
-        )
+        );
 
-        const titleInput = screen.getByLabelText("Title");
-        expect(titleInput).toBeInTheDocument();
-
-        const authorInput = screen.getByLabelText("Author");
-        expect(authorInput).toBeInTheDocument();
-
-        const descriptionInput = screen.getByLabelText("Description");
-        expect(descriptionInput).toBeInTheDocument();
-
-        const createButton = screen.getByText("Create");
-        expect(createButton).toBeInTheDocument();
-
-        await act(async () => {
-            fireEvent.change(titleInput, { target: { value: 'The Great Gatsby' } })
-            fireEvent.change(authorInput, { target: { value: 'F. Scott Fitzgerald' } })
-            fireEvent.change(descriptionInput, { target: { value: 'A story about a mysterious, rich man' } })
-
-            fireEvent.click(createButton);
+        await waitFor(() => {
+            expect(getByTestId("BookForm-title")).toBeInTheDocument();
         });
 
-        await waitFor(() => expect(mockAdd).toHaveBeenCalled());
-        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/books/list"));
+        const titleField = getByTestId("BookForm-title");
+        const authorField = getByTestId("BookForm-author");
+        const descriptionField = getByTestId("BookForm-description");
+        const submitButton = getByTestId("BookForm-submit");
 
-        // assert - check that the console.log was called with the expected message
-        expect(console.log).toHaveBeenCalled();
-        const message = console.log.mock.calls[0][0];
-        const expectedMessage = `createdBook: {"book":{"id":3,"title":"The Great Gatsby","author":"F. Scott Fitzgerald","description":"A story about a mysterious, rich man"}`
+        fireEvent.change(titleField, { target: { value: 'The Great Gatsby' } });
+        fireEvent.change(authorField, { target: { value: 'F. Scott Fitzgerald' } });
+        fireEvent.change(descriptionField, { target: { value: 'A story about a mysterious, rich man' } });
 
-        expect(message).toMatch(expectedMessage);
-        restoreConsole();
+        expect(submitButton).toBeInTheDocument();
 
+        fireEvent.click(submitButton);
+
+        await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
+
+        expect(axiosMock.history.post[0].params).toEqual(
+            {
+                "title": "The Great Gatsby",
+                "author": "F. Scott Fitzgerald",
+                "description": "A story about a mysterious, rich man"
+            });
+
+        expect(mockToast).toBeCalledWith("New book Created - id: 17 title: The Great Gatsby");
+        expect(mockNavigate).toBeCalledWith({ "to": "/books/list" });
     });
 
+
 });
+
+
+
 
 
