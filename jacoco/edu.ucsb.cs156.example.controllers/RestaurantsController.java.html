@@ -55,19 +55,20 @@ import javax.validation.Valid;
     @PostMapping(&quot;/post&quot;)
     public Restaurant postRestaurants(
         @ApiParam(&quot;name&quot;) @RequestParam String name,
-        @ApiParam(&quot;address&quot;) @RequestParam String address,
-        @ApiParam(&quot;specialty&quot;) @RequestParam String specialty
+        @ApiParam(&quot;specialty&quot;) @RequestParam String description,
+        @ApiParam(&quot;address&quot;) @RequestParam String address
         )
         {
 
 <span class="fc" id="L63">        Restaurant restaurants = new Restaurant();</span>
 <span class="fc" id="L64">        restaurants.setName(name);</span>
-<span class="fc" id="L65">        restaurants.setAddress(address);</span>
-<span class="fc" id="L66">        restaurants.setSpecialty(specialty);</span>
+<span class="fc" id="L65">        restaurants.setDescription(description);</span>
+<span class="fc" id="L66">        restaurants.setAddress(address);</span>
+        
 
-<span class="fc" id="L68">        Restaurant savedRestaurants = restaurantsRepository.save(restaurants);</span>
+<span class="fc" id="L69">        Restaurant savedRestaurants = restaurantsRepository.save(restaurants);</span>
 
-<span class="fc" id="L70">        return savedRestaurants;</span>
+<span class="fc" id="L71">        return savedRestaurants;</span>
     }
 
     @ApiOperation(value = &quot;Delete a Restaurant&quot;)
@@ -75,11 +76,11 @@ import javax.validation.Valid;
     @DeleteMapping(&quot;&quot;)
     public Object deleteRestaurants(
             @ApiParam(&quot;id&quot;) @RequestParam Long id) {
-<span class="fc" id="L78">        Restaurant restaurants = restaurantsRepository.findById(id)</span>
-<span class="fc" id="L79">                .orElseThrow(() -&gt; new EntityNotFoundException(Restaurant.class, id));</span>
+<span class="fc" id="L79">        Restaurant restaurants = restaurantsRepository.findById(id)</span>
+<span class="fc" id="L80">                .orElseThrow(() -&gt; new EntityNotFoundException(Restaurant.class, id));</span>
 
-<span class="fc" id="L81">        restaurantsRepository.delete(restaurants);</span>
-<span class="fc" id="L82">        return genericMessage(&quot;Restaurant with id %s deleted&quot;.formatted(id));</span>
+<span class="fc" id="L82">        restaurantsRepository.delete(restaurants);</span>
+<span class="fc" id="L83">        return genericMessage(&quot;Restaurant with id %s deleted&quot;.formatted(id));</span>
     }
 
     @ApiOperation(value = &quot;Update a single restaurant&quot;)
@@ -89,17 +90,17 @@ import javax.validation.Valid;
             @ApiParam(&quot;id&quot;) @RequestParam Long id,
             @RequestBody @Valid Restaurant incoming) {
 
-<span class="fc" id="L92">        Restaurant restaurants = restaurantsRepository.findById(id)</span>
-<span class="fc" id="L93">                .orElseThrow(() -&gt; new EntityNotFoundException(Restaurant.class, id));</span>
+<span class="fc" id="L93">        Restaurant restaurants = restaurantsRepository.findById(id)</span>
+<span class="fc" id="L94">                .orElseThrow(() -&gt; new EntityNotFoundException(Restaurant.class, id));</span>
 
 
-<span class="fc" id="L96">        restaurants.setName(incoming.getName());</span>
-<span class="fc" id="L97">        restaurants.setAddress(incoming.getAddress());</span>
-<span class="fc" id="L98">        restaurants.setSpecialty(incoming.getSpecialty());</span>
+<span class="fc" id="L97">        restaurants.setName(incoming.getName());</span>
+<span class="fc" id="L98">        restaurants.setDescription(incoming.getDescription());</span>
+<span class="fc" id="L99">        restaurants.setAddress(incoming.getAddress());</span>
 
-<span class="fc" id="L100">        restaurantsRepository.save(restaurants);</span>
+<span class="fc" id="L101">        restaurantsRepository.save(restaurants);</span>
 
-<span class="fc" id="L102">        return restaurants;</span>
+<span class="fc" id="L103">        return restaurants;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
