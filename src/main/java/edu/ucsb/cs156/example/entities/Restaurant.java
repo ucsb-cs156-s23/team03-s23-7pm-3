@@ -22,6 +22,6 @@ public class Restaurant {
     private long id;
     
     private String name;
+    private String description;
     private String address;
-    private String specialty;
 }
