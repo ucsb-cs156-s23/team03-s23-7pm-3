@@ -56,7 +56,8 @@ describe("RestaurantCreatePage tests", () => {
         const restaurant = {
                 id: 3,
                 name: "South Coast Deli",
-                description: "Sandwiches and Salads"
+                description: "Sandwiches and Salads",
+                address: "185 S Patterson Ave"
             };
         axiosMock.onPost("/api/restaurants/post").reply(202, restaurant);
 
@@ -74,9 +75,11 @@ describe("RestaurantCreatePage tests", () => {
 
         const nameField = getByTestId("RestaurantForm-name");
         const descriptionField = getByTestId("RestaurantForm-description");
+        const addressField = getByTestId("RestaurantForm-address");
         const submitButton = getByTestId("RestaurantForm-submit");
         fireEvent.change(nameField, { target: { value: 'South Coast Deli' } });
         fireEvent.change(descriptionField, { target: { value: 'Sandwiches and Salads' } });
+        fireEvent.change(addressField, { target: { value: '185 S Patterson Ave' } });
 
         expect(submitButton).toBeInTheDocument();
 
@@ -87,7 +90,8 @@ describe("RestaurantCreatePage tests", () => {
         expect(axiosMock.history.post[0].params).toEqual(
             {
                 "name": "South Coast Deli",
-                "description": "Sandwiches and Salads"
+                "description": "Sandwiches and Salads",
+                "address": "185 S Patterson Ave"
             });
 
         expect(mockToast).toBeCalledWith("New restaurant Created - id: 3 name: South Coast Deli");

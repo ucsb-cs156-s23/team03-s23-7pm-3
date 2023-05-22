@@ -24,9 +24,7 @@ export default function BooksTable({ restaurants, currentUser, showButtons = tru
         ["/api/restaurants/all"]
     );
 
-    const deleteCallback = async (cell) => { 
-        deleteMutation.mutate(cell); 
-    }
+    const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
 
     const columns = [
         {
@@ -41,6 +39,10 @@ export default function BooksTable({ restaurants, currentUser, showButtons = tru
         {
             Header: 'Description',
             accessor: 'description',
+        },
+        {
+            Header: 'Address',
+            accessor: 'address',
         }
     ];
 

@@ -29,7 +29,8 @@ export default function RestaurantEditPage() {
         },
         data: {
             name: restaurant.name,
-            description: restaurant.description
+            description: restaurant.description,
+            address: restaurant.address
         }
     });
 

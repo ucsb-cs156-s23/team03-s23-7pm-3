@@ -73,12 +73,14 @@ describe("RestaurantEditPage tests", () => {
             axiosMock.onGet("/api/restaurants", { params: { id: 3 } }).reply(200, {
                 id: 3,
                 name: "South Coast Deli",
-                description: "Sandwiches and Salads"
+                description: "Sandwiches and Salads",
+                address: "185 S Patterson Ave"
             });
-            axiosMock.onPut('/api/books').reply(200, {
-                id: 3,
+            axiosMock.onPut('/api/restaurants').reply(200, {
+                id: "3",
                 name: "South Coast Deli (Goleta)",
-                description: "Sandwiches, Salads and more"
+                description: "Sandwiches, Salads and more",
+                address: "185 S Patterson Ave, Santa Barbara"
             });
         });
 
@@ -108,11 +110,13 @@ describe("RestaurantEditPage tests", () => {
             const idField = getByTestId("RestaurantForm-id");
             const nameField = getByTestId("RestaurantForm-name");
             const descriptionField = getByTestId("RestaurantForm-description");
+            const addressField = getByTestId("RestaurantForm-address");
             const submitButton = getByTestId("RestaurantForm-submit");
 
             expect(idField).toHaveValue("3");
             expect(nameField).toHaveValue("South Coast Deli");
             expect(descriptionField).toHaveValue("Sandwiches and Salads");
+            expect(addressField).toHaveValue("185 S Patterson Ave");
         });
 
         test("Changes when you click Update", async () => {
@@ -129,15 +133,18 @@ describe("RestaurantEditPage tests", () => {
             const idField = getByTestId("RestaurantForm-id");
             const nameField = getByTestId("RestaurantForm-name");
             const descriptionField = getByTestId("RestaurantForm-description");
+            const addressField = getByTestId("RestaurantForm-address");
             const submitButton = getByTestId("RestaurantForm-submit");
 
             expect(idField).toHaveValue("3");
             expect(nameField).toHaveValue("South Coast Deli");
             expect(descriptionField).toHaveValue("Sandwiches and Salads");
+            expect(addressField).toHaveValue("185 S Patterson Ave");
             expect(submitButton).toBeInTheDocument();
             
             fireEvent.change(nameField, { target: { value: 'South Coast Deli (Goleta)' } })
             fireEvent.change(descriptionField, { target: { value: "Sandwiches, Salads and more" } })
+            fireEvent.change(addressField, { target: { value: '185 S Patterson Ave, Santa Barbara' } })
             fireEvent.click(submitButton);
             
             await waitFor(() => expect(mockToast).toBeCalled);
@@ -149,7 +156,8 @@ describe("RestaurantEditPage tests", () => {
             expect(axiosMock.history.put[0].params).toEqual({ id: 3 });
             expect(axiosMock.history.put[0].data).toBe(JSON.stringify({
                 name: "South Coast Deli (Goleta)",
-                description: "Sandwiches, Salads and more"
+                description: "Sandwiches, Salads and more",
+                address: "185 S Patterson Ave, Santa Barbara"
             })); 
         });
     });

@@ -11,7 +11,8 @@ export default function RestaurantCreatePage() {
     method: "POST",
     params: {
         name: restaurant.name,
-        description: restaurant.description
+        description: restaurant.description,
+        address: restaurant.address
     }
   });
 
