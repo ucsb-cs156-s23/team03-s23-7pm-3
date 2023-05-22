@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import IceCreamShopIndexPage from "main/pages/IceCreamShops/IceCreamShopIndexPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -7,47 +7,43 @@ import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+import { iceCreamShopFixtures } from "fixtures/iceCreamShopFixtures";
 
-const mockNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockNavigate
-}));
-
-const mockDelete = jest.fn();
-jest.mock('main/utils/iceCreamShopUtils', () => {
+const mockToast = jest.fn();
+jest.mock('react-toastify', () => {
+    const originalModule = jest.requireActual('react-toastify');
     return {
         __esModule: true,
-        iceCreamShopUtils: {
-            del: (id) => {
-                return mockDelete(id);
-            },
-            get: () => {
-                return {
-                    nextId: 5,
-                    iceCreamShops: [
-                        {
-                            "id": 3,
-                            "name": "i.v. drip",
-                            "description": "Quaint, compact cafe serving locally roasted coffee alongside housemade baked treats & ice cream.",
-                            "flavor": "strawberry"
-                        },
-                    ]
-                }
-            }
-        }
-    }
+        ...originalModule,
+        toast: (x) => mockToast(x)
+    };
 });
-
 
 describe("IceCreamShopIndexPage tests", () => {
 
-    const axiosMock =new AxiosMockAdapter(axios);
-    axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-    axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither); 
+    const axiosMock = new AxiosMockAdapter(axios);
 
-    const queryClient = new QueryClient();
-    test("renders without crashing", () => {
+    const testId = "IceCreamShopTable";
+
+    const setupUserOnly = () => {
+        axiosMock.reset();
+        axiosMock.resetHistory();
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
+        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
+    };
+
+    const setupAdminUser = () => {
+        axiosMock.reset();
+        axiosMock.resetHistory();
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
+        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
+    };
+
+    test("renders without crashing for regular user", () => {
+        setupUserOnly();
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/icecreamshop/all").reply(200, []);
+
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -55,9 +51,15 @@ describe("IceCreamShopIndexPage tests", () => {
                 </MemoryRouter>
             </QueryClientProvider>
         );
+
+
     });
 
-    test("renders correct fields", () => {
+    test("renders without crashing for admin user", () => {
+        setupAdminUser();
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/icecreamshop/all").reply(200, []);
+
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -66,29 +68,56 @@ describe("IceCreamShopIndexPage tests", () => {
             </QueryClientProvider>
         );
 
-        const createIceCreamShopButton = screen.getByText("Create Ice Cream Shop");
-        expect(createIceCreamShopButton).toBeInTheDocument();
-        expect(createIceCreamShopButton).toHaveAttribute("style", "float: right;");
 
-        const name = screen.getByText("i.v. drip");
-        expect(name).toBeInTheDocument();
-
-        const description = screen.getByText("Quaint, compact cafe serving locally roasted coffee alongside housemade baked treats & ice cream.");
-        expect(description).toBeInTheDocument();
-
-        const flavor = screen.getByText("strawberry");
-        expect(flavor).toBeInTheDocument();
-
-        expect(screen.getByTestId("IceCreamShopTable-cell-row-0-col-Delete-button")).toBeInTheDocument();
-        expect(screen.getByTestId("IceCreamShopTable-cell-row-0-col-Details-button")).toBeInTheDocument();
-        expect(screen.getByTestId("IceCreamShopTable-cell-row-0-col-Edit-button")).toBeInTheDocument();
     });
 
-    test("delete button calls delete and reloads page", async () => {
+    test("renders three ice cream shops without crashing for regular user", async () => {
+        setupUserOnly();
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/icecreamshop/all").reply(200, iceCreamShopFixtures.threeIceCreamShops);
+
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <IceCreamShopIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2"); });
+        expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("3");
+        expect(getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("4");
+
+    });
+
+    test("renders three dates without crashing for admin user", async () => {
+        setupAdminUser();
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/icecreamshop/all").reply(200, iceCreamShopFixtures.threeIceCreamShops);
+
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <IceCreamShopIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2"); });
+        expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("3");
+        expect(getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("4");
+
+    });
+
+    test("renders empty table when backend unavailable, user only", async () => {
+        setupUserOnly();
+
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/icecreamshop/all").timeout();
 
         const restoreConsole = mockConsole();
 
-        render(
+        const { queryByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <IceCreamShopIndexPage />
@@ -96,35 +125,43 @@ describe("IceCreamShopIndexPage tests", () => {
             </QueryClientProvider>
         );
 
-        const name = screen.getByText("i.v. drip");
-        expect(name).toBeInTheDocument();
+        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
 
-        const description = screen.getByText("Quaint, compact cafe serving locally roasted coffee alongside housemade baked treats & ice cream.");
-        expect(description).toBeInTheDocument();
+        const errorMessage = console.error.mock.calls[0][0];
+        expect(errorMessage).toMatch("Error communicating with backend via GET on /api/icecreamshop/all");
+        restoreConsole();
 
-        const flavor = screen.getByText("strawberry");
-        expect(flavor).toBeInTheDocument();
+        expect(queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
+    });
 
-        const deleteButton = screen.getByTestId("IceCreamShopTable-cell-row-0-col-Delete-button");
+    test("what happens when you click delete, admin", async () => {
+        setupAdminUser();
+
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/icecreamshop/all").reply(200, iceCreamShopFixtures.threeIceCreamShops);
+        axiosMock.onDelete("/api/icecreamshop").reply(200, "IceCreamShop with id 2 was deleted");
+
+
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <IceCreamShopIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
+
+        expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
+
+
+        const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
         expect(deleteButton).toBeInTheDocument();
 
-        deleteButton.click();
+        fireEvent.click(deleteButton);
 
-        expect(mockDelete).toHaveBeenCalledTimes(1);
-        expect(mockDelete).toHaveBeenCalledWith(3);
-
-        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/iceCreamShops/list"));
-
-
-        // assert - check that the console.log was called with the expected message
-        expect(console.log).toHaveBeenCalled();
-        const message = console.log.mock.calls[0][0];
-        const expectedMessage = `IceCreamShopIndexPage deleteCallback: {"id":3,"name":"i.v. drip","description":"Quaint, compact cafe serving locally roasted coffee alongside housemade baked treats & ice cream.","flavor":"strawberry"}`;
-        expect(message).toMatch(expectedMessage);
-        restoreConsole();
+        await waitFor(() => { expect(mockToast).toBeCalledWith("IceCreamShop with id 2 was deleted") });
 
     });
 
 });
-
-
