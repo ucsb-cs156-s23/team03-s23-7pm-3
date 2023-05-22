@@ -24,7 +24,7 @@ export default function IceCreamShopDetailsPage() {
     <BasicLayout>
       <div className="pt-2">
         <h1>Ice Cream Shop Details</h1>
-        <IceCreamShopTable icecreamshops={[icecreamshop || {}]} currentUser={currentUser} showButtons={false} />
+        <IceCreamShopTable iceCreamShops={[icecreamshop || {}]} currentUser={currentUser} showButtons={false} />
       </div>
     </BasicLayout>
   )

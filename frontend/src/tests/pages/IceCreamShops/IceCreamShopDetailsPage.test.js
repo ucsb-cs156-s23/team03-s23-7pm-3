@@ -79,13 +79,13 @@ describe("IceCreamShopDetailsPage tests", () => {
         await findByTestId("IceCreamShopTable-cell-row-0-col-id");
 
 		const idField = getByTestId("IceCreamShopTable-cell-row-0-col-id");
-		const titleField = getByTestId("IceCreamShopTable-cell-row-0-col-title");
-		const authorField = getByTestId("IceCreamShopTable-cell-row-0-col-author");
+		const nameField = getByTestId("IceCreamShopTable-cell-row-0-col-name");
+		const flavorField = getByTestId("IceCreamShopTable-cell-row-0-col-flavor");
 		const descriptionField = getByTestId("IceCreamShopTable-cell-row-0-col-description")
 
 		expect(idField).toHaveTextContent(icecreamshop.id);
-		expect(titleField).toHaveTextContent(icecreamshop.title);
-		expect(authorField).toHaveTextContent(icecreamshop.author);
+		expect(nameField).toHaveTextContent(icecreamshop.name);
+		expect(flavorField).toHaveTextContent(icecreamshop.flavor);
 		expect(descriptionField).toHaveTextContent(icecreamshop.description);
 
 		expect(screen.queryByText("Delete")).not.toBeInTheDocument();
