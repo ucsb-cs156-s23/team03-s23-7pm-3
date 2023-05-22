@@ -68,7 +68,7 @@ describe("UserTable tests", () => {
 
 		);
 
-		const expectedHeaders = ["id", "TITLE", "AUTHOR","Description"];
+		const expectedHeaders = ["id", "Title", "Author", "Description"];
 		const expectedFields = ["id", "title", "author", "description"];
 		const testId = "BookTable";
 

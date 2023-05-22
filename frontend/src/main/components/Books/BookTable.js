@@ -35,11 +35,11 @@ export default function BooksTable({ books, currentUser, showButtons = true }) {
             accessor: 'id', // accessor is the "key" in the data
         },
         {
-            Header: 'TITLE',
+            Header: 'Title',
             accessor: 'title',
         },
         {
-            Header: 'AUTHOR',
+            Header: 'Author',
             accessor: 'author',
         },
         {
