@@ -1,13 +1,14 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import IceCreamShopIndexPage from "main/pages/IceCreamShops/IceCreamShopIndexPage";
+import { render, waitFor, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import mockConsole from "jest-mock-console";
+import IceCreamShopIndexPage from "main/pages/IceCreamShops/IceCreamShopIndexPage";
+
 import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import { iceCreamShopFixtures } from "fixtures/iceCreamShopFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
-import { iceCreamShopFixtures } from "fixtures/iceCreamShopFixtures";
+import mockConsole from "jest-mock-console";
 
 const mockToast = jest.fn();
 jest.mock('react-toastify', () => {
@@ -152,7 +153,7 @@ describe("IceCreamShopIndexPage tests", () => {
 
         await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
 
-        expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
+        expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent('2');
 
 
         const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);

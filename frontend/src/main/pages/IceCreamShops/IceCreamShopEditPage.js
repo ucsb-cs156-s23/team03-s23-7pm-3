@@ -37,7 +37,7 @@ export default function IceCreamShopEditPage() {
     });
 
     const onSuccess = (iceCreamShop) => {
-        toast(`iceCreamShop Updated - id: ${iceCreamShop.id}, name: ${iceCreamShop.name}, description: ${iceCreamShop.description}, flavor: ${iceCreamShop.flavor}`);
+        toast(`IceCreamShop Updated - id: ${iceCreamShop.id}, name: ${iceCreamShop.name}, description: ${iceCreamShop.description}, flavor: ${iceCreamShop.flavor}`);
     }
 
     const mutation = useBackendMutation(
@@ -54,7 +54,7 @@ export default function IceCreamShopEditPage() {
     }
 
     if (isSuccess) {
-        return <Navigate to="/icecreamshops/list" />
+        return <Navigate to="/icecreamshops" />
     }
 
     return (

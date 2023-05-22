@@ -1,40 +1,39 @@
 import React from "react";
 import OurTable, { ButtonColumn } from "main/components/OurTable";
 import { useNavigate } from "react-router-dom";
-import { iceCreamShopUtils } from "main/utils/iceCreamShopUtils";
+import { useBackendMutation } from "main/utils/useBackend";
+import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/iceCreamShopUtils";
+import { hasRole } from "main/utils/currentUser";
 
-const showCell = (cell) => JSON.stringify(cell.row.values);
-
-
-const defaultDeleteCallback = async (cell) => {
-    console.log(`deleteCallback: ${showCell(cell)})`);
-    iceCreamShopUtils.del(cell.row.values.id);
-}
-
-export default function IceCreamShopTable({
-    iceCreamShops,
-    deleteCallback = defaultDeleteCallback,
-    showButtons = true,
-    testIdPrefix = "IceCreamShopTable" }) {
-
+export default function IceCreamShopTable({ iceCreamShops, currentUser, showButtons = true }) {
     const navigate = useNavigate();
- 
+
     const editCallback = (cell) => {
-        console.log(`editCallback: ${showCell(cell)})`);
-        navigate(`/iceCreamShops/edit/${cell.row.values.id}`)
+        navigate(`/icecreamshop/edit/${cell.row.values.id}`)
     }
 
     const detailsCallback = (cell) => {
-        console.log(`detailsCallback: ${showCell(cell)})`);
-        navigate(`/iceCreamShops/details/${cell.row.values.id}`)
+        navigate(`/icecreamshop/details/${cell.row.values.id}`)
     }
+
+    // Stryker disable all : hard to test for query caching
+
+    const deleteMutation = useBackendMutation(
+        cellToAxiosParamsDelete,
+        { onSuccess: onDeleteSuccess },
+        ["/api/icecreamshop/all"]
+    );
+    // Stryker enable all 
+
+    // Stryker disable next-line all : TODO try to make a good test for this
+    const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
+
 
     const columns = [
         {
             Header: 'id',
             accessor: 'id', // accessor is the "key" in the data
         },
-
         {
             Header: 'Name',
             accessor: 'name',
@@ -44,25 +43,24 @@ export default function IceCreamShopTable({
             accessor: 'description',
         },
         {
-            Header: 'Most Popular Flavor',
+            Header: 'Flavor',
             accessor: 'flavor',
         }
     ];
 
-    const buttonColumns = [
-        ...columns,
-        ButtonColumn("Details", "primary", detailsCallback, testIdPrefix),
-        ButtonColumn("Edit", "primary", editCallback, testIdPrefix),
-        ButtonColumn("Delete", "danger", deleteCallback, testIdPrefix),
-    ]
+    if (showButtons && hasRole(currentUser, "ROLE_ADMIN")) {
+        columns.push(ButtonColumn("Details", "primary", detailsCallback, "IceCreamShopTable"));
+        columns.push(ButtonColumn("Edit", "primary", editCallback, "IceCreamShopTable"));
+        columns.push(ButtonColumn("Delete", "danger", deleteCallback, "IceCreamShopTable"));
+    }
 
-    const columnsToDisplay = showButtons ? buttonColumns : columns;
+    // Stryker disable next-line ArrayDeclaration : [columns] is a performance optimization
+    const memoizedColumns = React.useMemo(() => columns, [columns]);
+    const memoizedIceCreamShops = React.useMemo(() => iceCreamShops, [iceCreamShops]);
 
     return <OurTable
-        data={iceCreamShops}
-        columns={columnsToDisplay}
-        testid={testIdPrefix}
+        data={memoizedIceCreamShops}
+        columns={memoizedColumns}
+        testid={"IceCreamShopTable"}
     />;
 };
-
-export { showCell };

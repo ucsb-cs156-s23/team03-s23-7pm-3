@@ -1,7 +1,7 @@
 import { render, queryByTestId, waitFor, fireEvent } from "@testing-library/react";
-import IceCreamShopEditPage from "main/pages/IceCreamShops/IceCreamShopEditPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
+import IceCreamShopEditPage from "main/pages/IceCreamShops/IceCreamShopEditPage";
 
 import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
@@ -33,7 +33,6 @@ jest.mock('react-router-dom', () => {
         Navigate: (x) => { mockNavigate(x); return null; }
     };
 });
-
 
 describe("IceCreamShopEditPage tests", () => {
 
@@ -82,7 +81,7 @@ describe("IceCreamShopEditPage tests", () => {
                 
             });
             axiosMock.onPut('/api/icecreamshop').reply(200, {
-                id: "17",
+                id: 17,
                 name: "Coldstone Creamery",
                 description: "The one with the cold stone",
                 flavor: "Chocolate"
