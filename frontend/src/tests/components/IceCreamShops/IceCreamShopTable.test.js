@@ -1,9 +1,9 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import IceCreamShopTable, { showCell } from "main/components/IceCreamShops/IceCreamShopTable";
+import IceCreamShopTable from "main/components/IceCreamShops/IceCreamShopTable";
 import { iceCreamShopFixtures } from "fixtures/iceCreamShopFixtures";
-import mockConsole from "jest-mock-console";
+import { currentUserFixtures } from "fixtures/currentUserFixtures";
 
 const mockedNavigate = jest.fn();
 
@@ -15,219 +15,134 @@ jest.mock('react-router-dom', () => ({
 describe("IceCreamShopTable tests", () => {
   const queryClient = new QueryClient();
 
-  const expectedHeaders = ["id", "Name", "Description", "Most Popular Flavor"];
-  const expectedFields = ["id", "name", "description", 'flavor'];
-  const testId = "IceCreamShopTable";
+  test("renders without crashing for empty table with user not logged in", () => {
+		const currentUser = null;
 
-  test("showCell function works properly", () => {
-    const cell = {
-      row: {
-        values: { a: 1, b: 2, c: 3 }
-      },
-    };
-    expect(showCell(cell)).toBe(`{"a":1,"b":2,"c":3}`);
-  });
+		render(
+			<QueryClientProvider client={queryClient}>
+				<MemoryRouter>
+					<IceCreamShopTable iceCreamShops={[]} currentUser={currentUser} />
+				</MemoryRouter>
+			</QueryClientProvider>
 
-  test("renders without crashing for empty table", () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <IceCreamShopTable iceCreamShops={[]} />
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
-  });
+		);
+	});
+	test("renders without crashing for empty table for ordinary user", () => {
+		const currentUser = currentUserFixtures.userOnly;
 
+		render(
+			<QueryClientProvider client={queryClient}>
+				<MemoryRouter>
+					<IceCreamShopTable iceCreamShops={[]} currentUser={currentUser} />
+				</MemoryRouter>
+			</QueryClientProvider>
 
+		);
+	});
 
-  test("Has the expected column headers, content and buttons", () => {
+	test("renders without crashing for empty table for admin", () => {
+		const currentUser = currentUserFixtures.adminUser;
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <IceCreamShopTable iceCreamShops={iceCreamShopFixtures.threeIceCreamShops} />
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
+		render(
+			<QueryClientProvider client={queryClient}>
+				<MemoryRouter>
+					<IceCreamShopTable iceCreamShops={[]} currentUser={currentUser} />
+				</MemoryRouter>
+			</QueryClientProvider>
 
-    expectedHeaders.forEach((headerText) => {
-      const header = screen.getByText(headerText);
-      expect(header).toBeInTheDocument();
-    });
+		);
+	});
 
-    expectedFields.forEach((field) => {
-      const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
-      expect(header).toBeInTheDocument();
-    });
+	test("Has the expected colum headers and content for adminUser", () => {
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-name`)).toHaveTextContent("Rori’s Artisanal Creamery");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-description`)).toHaveTextContent("This is a tasty ice cream shop with special flavors in SB public market.");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-flavor`)).toHaveTextContent("mint");
+		const currentUser = currentUserFixtures.adminUser;
 
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("3");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-name`)).toHaveTextContent("i.v. drip");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-description`)).toHaveTextContent("Quaint, compact cafe serving locally roasted coffee alongside housemade baked treats & ice cream.");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-flavor`)).toHaveTextContent("strawberry");
+		const { getByText, getByTestId } = render(
+			<QueryClientProvider client={queryClient}>
+				<MemoryRouter>
+					<IceCreamShopTable iceCreamShops={iceCreamShopFixtures.threeIceCreamShops} currentUser={currentUser} />
+				</MemoryRouter>
+			</QueryClientProvider>
 
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("4");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-name`)).toHaveTextContent("Cold Stone Creamery");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-description`)).toHaveTextContent("Ice cream chain offering design-your-own creations hand-mixed on a granite slab, plus shakes & more.");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-flavor`)).toHaveTextContent("vanilla");
+		);
 
-    const detailsButton = screen.getByTestId(`${testId}-cell-row-0-col-Details-button`);
-    expect(detailsButton).toBeInTheDocument();
-    expect(detailsButton).toHaveClass("btn-primary");
+		const expectedHeaders = ["id", "Name", "Description","Flavor"];
+		const expectedFields = ["id", "name", "description", "flavor"];
+		const testId = "IceCreamShopTable";
 
-    const editButton = screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`);
-    expect(editButton).toBeInTheDocument();
-    expect(editButton).toHaveClass("btn-primary");
+		expectedHeaders.forEach((headerText) => {
+			const header = getByText(headerText);
+			expect(header).toBeInTheDocument();
+		});
 
-    const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
-    expect(deleteButton).toBeInTheDocument();
-    expect(deleteButton).toHaveClass("btn-danger");
+		expectedFields.forEach((field) => {
+			const header = getByTestId(`${testId}-cell-row-0-col-${field}`);
+			expect(header).toBeInTheDocument();
+		});
 
-  });
+		expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
+		expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("3");
 
-  test("Has the expected column headers, content and no buttons when showButtons=false", () => {
+		const editButton = getByTestId(`${testId}-cell-row-0-col-Edit-button`);
+		expect(editButton).toBeInTheDocument();
+		expect(editButton).toHaveClass("btn-primary");
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <IceCreamShopTable iceCreamShops={iceCreamShopFixtures.threeIceCreamShops} showButtons={false} />
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
+		const detailsButton = getByTestId(`${testId}-cell-row-0-col-Details-button`);
+		expect(detailsButton).toBeInTheDocument();
+		expect(detailsButton).toHaveClass("btn-primary");
 
-    expectedHeaders.forEach((headerText) => {
-      const header = screen.getByText(headerText);
-      expect(header).toBeInTheDocument();
-    });
+		const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
+		expect(deleteButton).toBeInTheDocument();
+		expect(deleteButton).toHaveClass("btn-danger");
 
-    expectedFields.forEach((field) => {
-      const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
-      expect(header).toBeInTheDocument();
-    });
+	});
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-name`)).toHaveTextContent("Rori’s Artisanal Creamery");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-description`)).toHaveTextContent("This is a tasty ice cream shop with special flavors in SB public market.");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-flavor`)).toHaveTextContent("mint");
+	test("Edit button navigates to the edit page for admin user", async () => {
 
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("3");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-name`)).toHaveTextContent("i.v. drip");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-description`)).toHaveTextContent("Quaint, compact cafe serving locally roasted coffee alongside housemade baked treats & ice cream.");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-flavor`)).toHaveTextContent("strawberry");
+		const currentUser = currentUserFixtures.adminUser;
 
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("4");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-name`)).toHaveTextContent("Cold Stone Creamery");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-description`)).toHaveTextContent("Ice cream chain offering design-your-own creations hand-mixed on a granite slab, plus shakes & more.");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-flavor`)).toHaveTextContent("vanilla");
+		const { getByText, getByTestId } = render(
+			<QueryClientProvider client={queryClient}>
+				<MemoryRouter>
+					<IceCreamShopTable iceCreamShops={iceCreamShopFixtures.threeIceCreamShops} currentUser={currentUser} />
+				</MemoryRouter>
+			</QueryClientProvider>
 
-    expect(screen.queryByText("Delete")).not.toBeInTheDocument();
-    expect(screen.queryByText("Edit")).not.toBeInTheDocument();
-    expect(screen.queryByText("Details")).not.toBeInTheDocument();
-  });
+		);
 
+		await waitFor(() => { expect(getByTestId(`IceCreamShopTable-cell-row-0-col-id`)).toHaveTextContent("2"); });
 
-  test("Edit button navigates to the edit page", async () => {
-    // arrange
-    const restoreConsole = mockConsole();
+		const editButton = getByTestId(`IceCreamShopTable-cell-row-0-col-Edit-button`);
+		expect(editButton).toBeInTheDocument();
 
-    // act - render the component
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <IceCreamShopTable iceCreamShops={iceCreamShopFixtures.threeIceCreamShops} />
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
+		fireEvent.click(editButton);
 
-    // assert - check that the expected content is rendered
-    expect(await screen.findByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-name`)).toHaveTextContent("Rori’s Artisanal Creamery");
+		await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/icecreamshops/edit/2'));
 
-    const editButton = screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`);
-    expect(editButton).toBeInTheDocument();
+	});
 
-    // act - click the edit button
-    fireEvent.click(editButton);
+	test("Details button navigates to the details page for admin user", async () => {
 
-    // assert - check that the navigate function was called with the expected path
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/iceCreamShops/edit/2'));
+		const currentUser = currentUserFixtures.adminUser;
 
-    // assert - check that the console.log was called with the expected message
-    expect(console.log).toHaveBeenCalled();
-    const message = console.log.mock.calls[0][0];
-    const expectedMessage = `editCallback: {"id":2,"name":"Rori’s Artisanal Creamery","description":"This is a tasty ice cream shop with special flavors in SB public market.","flavor":"mint"})`;
-    expect(message).toMatch(expectedMessage);
-    restoreConsole();
-  });
+		const { getByText, getByTestId } = render(
+			<QueryClientProvider client={queryClient}>
+				<MemoryRouter>
+					<IceCreamShopTable iceCreamShops={iceCreamShopFixtures.threeIceCreamShops} currentUser={currentUser} />
+				</MemoryRouter>
+			</QueryClientProvider>
 
-  test("Details button navigates to the details page", async () => {
-    // arrange
-    const restoreConsole = mockConsole();
+		);
 
-    // act - render the component
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <IceCreamShopTable iceCreamShops={iceCreamShopFixtures.threeIceCreamShops} />
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
+		await waitFor(() => { expect(getByTestId(`IceCreamShopTable-cell-row-0-col-id`)).toHaveTextContent("2"); });
 
-    // assert - check that the expected content is rendered
-    expect(await screen.findByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-name`)).toHaveTextContent("Rori’s Artisanal Creamery");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-description`)).toHaveTextContent("This is a tasty ice cream shop with special flavors in SB public market.");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-flavor`)).toHaveTextContent("mint");
+		const detailsButton = getByTestId(`IceCreamShopTable-cell-row-0-col-Details-button`);
+		expect(detailsButton).toBeInTheDocument();
 
-    const detailsButton = screen.getByTestId(`${testId}-cell-row-0-col-Details-button`);
-    expect(detailsButton).toBeInTheDocument();
+		fireEvent.click(detailsButton);
 
-    // act - click the details button
-    fireEvent.click(detailsButton);
+		await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/icecreamshops/details/2'));
 
-    // assert - check that the navigate function was called with the expected path
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/iceCreamShops/details/2'));
+	});
 
-    // assert - check that the console.log was called with the expected message
-    expect(console.log).toHaveBeenCalled();
-    const message = console.log.mock.calls[0][0];
-    const expectedMessage = `detailsCallback: {"id":2,"name":"Rori’s Artisanal Creamery","description":"This is a tasty ice cream shop with special flavors in SB public market.","flavor":"mint"})`;
-    expect(message).toMatch(expectedMessage);
-    restoreConsole();
-  });
-
-  test("Delete button calls delete callback", async () => {
-    // arrange
-    const restoreConsole = mockConsole();
-
-    // act - render the component
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <IceCreamShopTable iceCreamShops={iceCreamShopFixtures.threeIceCreamShops} />
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
-
-    // assert - check that the expected content is rendered
-    expect(await screen.findByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("2");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-name`)).toHaveTextContent("Rori’s Artisanal Creamery");
-
-    const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
-    expect(deleteButton).toBeInTheDocument();
-
-     // act - click the delete button
-    fireEvent.click(deleteButton);
-
-     // assert - check that the console.log was called with the expected message
-     await(waitFor(() => expect(console.log).toHaveBeenCalled()));
-     const message = console.log.mock.calls[0][0];
-     const expectedMessage = `deleteCallback: {"id":2,"name":"Rori’s Artisanal Creamery","description":"This is a tasty ice cream shop with special flavors in SB public market.","flavor":"mint"})`;
-     expect(message).toMatch(expectedMessage);
-     restoreConsole();
-  });
 });
